@@ -5,7 +5,7 @@ export default {
     extend: {
       colors:{
         "my-bacground":"aliceblue"
-      }
+      },
     },
   },
   plugins: [],

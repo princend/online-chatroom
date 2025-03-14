@@ -1,16 +1,19 @@
 <template>
   <div class="container">
-    <h1>Vue 3 WebSocket Demo</h1>
-    <div class="message-area">
-      <div v-for="(message, index) in messages" :key="index" class="message bg-blue-500">
-        {{ message }} 
+    <div class="bg-gray-100 p-4 rounded-lg mb-4 h-96 overflow-y-auto  w-96">
+      <div v-for="(message, index) in messages" :key="index" class="message bg-blue-500 text-white p-2 rounded-lg mb-2">
+        {{ message }}
       </div>
     </div>
-    <div class="input-area">
-      <input v-model="newMessage" @keyup.enter="sendMessage" placeholder="輸入訊息並按 Enter" />
-      <button @click="sendMessage">發送</button>
+    <div class="input-area flex gap-2">
+      <input v-model="newMessage" @keyup.enter="sendMessage" placeholder="輸入訊息並按 Enter" class="flex-grow p-3 border border-gray-300 rounded-l-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+      <button @click="sendMessage" class="p-3 bg-blue-500 text-white rounded-r-lg hover:bg-blue-600 transition duration-200">
+        發送
+      </button>
     </div>
   </div>
+
+
 </template>
 
 <script setup>
@@ -73,44 +76,59 @@ const sendMessage = () => {
 </script>
 
 <style scoped>
+
+/* 
 .container {
   display: flex;
   flex-direction: column;
   align-items: center;
   font-family: sans-serif;
+  padding: 20px;
+  background-color: #f9fafb;
 }
 
 .message-area {
   width: 80%;
   height: 300px;
-  border: 1px solid #ccc;
+  border: 1px solid #e5e7eb;
   margin-bottom: 20px;
   padding: 10px;
   overflow-y: auto;
+  background-color: #f3f4f6;
 }
 
 .message {
-  padding: 5px 0;
-  border-bottom: 1px dotted #eee;
+  padding: 8px;
+  border-radius: 8px;
+  margin-bottom: 8px;
 }
 
 .input-area {
   width: 80%;
   display: flex;
+  gap: 0.5rem;
 }
 
 input {
   flex-grow: 1;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px 0 0 5px;
+  padding: 0.75rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.375rem;
+  font-size: 1rem;
 }
 
 button {
-  padding: 10px 15px;
-  border: 1px solid #ccc;
-  border-radius: 0 5px 5px 0;
-  background-color: #eee;
+  padding: 0.75rem 1rem;
+  border: 1px solid #e5e7eb;
+  background-color: #2563eb;
+  color: white;
+  border-radius: 0.375rem;
   cursor: pointer;
+  transition: background-color 0.2s ease;
 }
+
+button:hover {
+  background-color: #1d4ed8;
+} */
+@import './App.css';
 </style>
