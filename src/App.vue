@@ -2,8 +2,8 @@
   <div class="container">
     <h1>Vue 3 WebSocket Demo</h1>
     <div class="message-area">
-      <div v-for="(message, index) in messages" :key="index" class="message">
-        {{ message }}
+      <div v-for="(message, index) in messages" :key="index" class="message bg-blue-500">
+        {{ message }} 
       </div>
     </div>
     <div class="input-area">
@@ -60,7 +60,9 @@ const closeWebSocket = () => {
 };
 
 const sendMessage = () => {
-  if (websocket.value && websocket.value.readyState === WebSocket.OPEN && newMessage.value.trim() !== '') {
+  if (websocket.value 
+  && websocket.value.readyState === WebSocket.OPEN 
+  && newMessage.value.trim() !== '') {
     websocket.value.send(newMessage.value);
     messages.value.push('已發送: ' + newMessage.value);
     newMessage.value = ''; // 清空輸入框
