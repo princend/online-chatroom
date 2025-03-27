@@ -1,6 +1,6 @@
 <template>
   <div class="container md:container md:mx-auto">
-    <div class="bg-gray-100 p-4 rounded-lg mb-4 h-96 overflow-y-auto  w-[200px] ">
+    <div class="bg-gray-100 p-4 rounded-lg mb-4 h-96 overflow-y-auto  w-[400px] ">
       <div v-for="(message, index) in messages" :key="index" class="message bg-blue-500 text-white p-2 rounded-lg mb-2">
         {{ message }}
       </div>
