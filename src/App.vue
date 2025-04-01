@@ -1,27 +1,76 @@
 <template>
-  <div class="container md:container md:mx-auto">
-    <div class="bg-gray-100 p-4 rounded-lg mb-4 h-96 overflow-y-auto  w-[400px] ">
-      <div v-for="(message, index) in messages" :key="index" class="message bg-blue-500 text-white p-2 rounded-lg mb-2">
-        {{ message }}
+  <div class="min-h-screen bg-gradient-to-b bg-gray-50  to-blue-950 p-4 w-[100vw]">
+    <div class="max-w-md mx-auto">
+      <!-- 標題區 -->
+      <div class="text-center mb-8">
+        <h1 class="text-3xl font-bold text-gray-800 mb-2">線上聊天室</h1>
+        <div class="flex items-center justify-center space-x-2">
+          <div class="w-3 h-3 rounded-full" :class="connectionStatusColor"></div>
+          <span class="text-sm text-gray-600">{{ connectionStatusText }}</span>
+        </div>
+      </div>
+
+      <!-- 聊天訊息區 -->
+      <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+        <div class="h-96 overflow-y-auto p-4 space-y-4">
+          <div 
+            v-for="(message, index) in messages" 
+            :key="index"
+            class="flex"
+            :class="message.startsWith('已發送:') ? 'justify-end' : 'justify-start'"
+          >
+            <div 
+              class="chat-bubble"
+              :class="[
+                message.startsWith('已發送:') ? 'sent text-blue-500' : 'received text-gray-800'
+              ]"
+            >
+              {{ message }}
+              <div class="text-xs mt-1 opacity-75">
+                {{ new Date().toLocaleTimeString() }}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 輸入區 -->
+        <div class="border-t border-gray-200 p-4 bg-gray-50">
+          <div class="flex justify-center gap-2">
+            <input
+              v-model="newMessage"
+              @keyup.enter="sendMessage"
+              placeholder="輸入訊息..."
+              class="input-field text-blue-500"
+            />
+            <button 
+              @click="sendMessage"
+              class="send-btn"
+            >
+              發送
+            </button>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="input-area flex gap-2">
-      <input v-model="newMessage" @keyup.enter="sendMessage" placeholder="輸入訊息並按 Enter" class="flex-grow p-3 border border-gray-300 rounded-l-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
-      <button @click="sendMessage" class="p-3 bg-blue-500 text-white rounded-r-lg hover:bg-blue-600 transition duration-200">
-        發送
-      </button>
-    </div>
   </div>
-
-
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref, onMounted, onUnmounted, computed } from 'vue';
 
 const websocket = ref(null); // WebSocket 連線實例
 const messages = ref([]); // 儲存接收到的訊息
 const newMessage = ref(''); // 用於綁定輸入框的訊息
+
+// 計算屬性：連線狀態顏色
+const connectionStatusColor = computed(() => {
+  return websocket.value?.readyState === WebSocket.OPEN ? 'bg-green-500' : 'bg-red-500';
+});
+
+// 計算屬性：連線狀態文本
+const connectionStatusText = computed(() => {
+  return websocket.value?.readyState === WebSocket.OPEN ? '已連線' : '未連線';
+});
 
 onMounted(() => {
   connectWebSocket();
@@ -76,59 +125,5 @@ const sendMessage = () => {
 </script>
 
 <style scoped>
-
-/* 
-.container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  font-family: sans-serif;
-  padding: 20px;
-  background-color: #f9fafb;
-}
-
-.message-area {
-  width: 80%;
-  height: 300px;
-  border: 1px solid #e5e7eb;
-  margin-bottom: 20px;
-  padding: 10px;
-  overflow-y: auto;
-  background-color: #f3f4f6;
-}
-
-.message {
-  padding: 8px;
-  border-radius: 8px;
-  margin-bottom: 8px;
-}
-
-.input-area {
-  width: 80%;
-  display: flex;
-  gap: 0.5rem;
-}
-
-input {
-  flex-grow: 1;
-  padding: 0.75rem;
-  border: 1px solid #e5e7eb;
-  border-radius: 0.375rem;
-  font-size: 1rem;
-}
-
-button {
-  padding: 0.75rem 1rem;
-  border: 1px solid #e5e7eb;
-  background-color: #2563eb;
-  color: white;
-  border-radius: 0.375rem;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
-button:hover {
-  background-color: #1d4ed8;
-} */
 @import './App.css';
 </style>
